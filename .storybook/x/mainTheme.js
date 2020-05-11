@@ -4,10 +4,10 @@ export const theme = {
   tertiary: 'hsl(106, 47%, 64%)',
   grey100: 'hsl(0, 0%, 96%)',
   grey200: 'hsl(0, 0%, 90%)',
+  grey300: 'hsl(0, 0%, 70%)',
   black: 'hsl(0, 0%, 0%)',
   light: 300,
   bold: 600,
-  regular: 400,
   fontSize: {
     xxs: '1rem',
     xs: '1.2rem',
