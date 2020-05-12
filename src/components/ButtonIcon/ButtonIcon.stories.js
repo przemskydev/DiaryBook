@@ -6,6 +6,7 @@ import editIco from 'assets/edit.svg';
 import logoutIco from 'assets/logout.svg';
 import twitterIco from 'assets/twitter.svg';
 import linkIco from 'assets/link.svg';
+import logoIco from 'assets/logo.svg';
 import ButtonIcon from './ButtonIcon';
 
 const YellowBg = styled.div`
@@ -25,12 +26,14 @@ export default {
 
 export const bulb = () => <ButtonIcon icon={bulbIco} />;
 
-export const addActive = () => <ButtonIcon active icon={addIco} />;
+export const add = () => <ButtonIcon icon={addIco} />;
 
 export const edit = () => <ButtonIcon icon={editIco} />;
 
 export const logout = () => <ButtonIcon icon={logoutIco} />;
 
-export const twitterActive = () => <ButtonIcon active icon={twitterIco} />;
+export const twitter = () => <ButtonIcon icon={twitterIco} />;
 
 export const link = () => <ButtonIcon icon={linkIco} />;
+
+export const logo = () => <ButtonIcon icon={logoIco} />;
