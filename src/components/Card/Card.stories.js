@@ -7,4 +7,6 @@ export default {
   // decorators: [withKnobs],
 };
 
-export const cardComponent = () => <Card />;
+export const primary = () => <Card />;
+export const secondary = () => <Card cardType="twitter" />;
+export const tertiary = () => <Card cardType="article" />;
