@@ -52,13 +52,13 @@ const Sidebar = ({ pageType }) => (
 
     <InnerWrapper>
       <li>
-        <ButtonIco exact as={NavLink} to="/" icon={editIco} activeclass="active" />
+        <ButtonIco as={NavLink} to="/notes" icon={editIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/twitter" icon={twitterIco} activeclass="active" />
+        <ButtonIco as={NavLink} to="/twitters" icon={twitterIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/article" icon={bulbIco} activeclass="active" />
+        <ButtonIco as={NavLink} to="/articles" icon={bulbIco} activeclass="active" />
       </li>
     </InnerWrapper>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Sidebar from 'components/Sidebar/Sidebar';
+import UserPage from 'views/pages/UserPage';
 import Input from 'components/Input/Input';
 import Heading from 'components/Heading/Heading';
 import Paragraph from 'components/Paragraph/Paragraph';
@@ -33,31 +33,29 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.bold};
 `;
 
-const UserPage = ({ children, pageType }) => (
-  <>
-    <Sidebar pageType={pageType} />
-
+const GridTemplate = ({ children, pageType }) => (
+  <UserPage pageType={pageType}>
     <StyledWrapper>
       <StyledPageHeader>
         <Input search placeholder="search" />
         <StyledHeading big as="h1">
-          {pageType}s
+          {pageType}
         </StyledHeading>
-        <StyledParagraph>6 {pageType}s</StyledParagraph>
+        <StyledParagraph>6 {pageType}</StyledParagraph>
       </StyledPageHeader>
 
       <StyledGrid>{children}</StyledGrid>
     </StyledWrapper>
-  </>
+  </UserPage>
 );
 
-UserPage.propTypes = {
-  children: PropTypes.element.isRequired,
-  pageType: PropTypes.oneOf(['note', 'twitter', 'article']),
+GridTemplate.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
-UserPage.defaultProps = {
-  pageType: 'note',
+GridTemplate.defaultProps = {
+  pageType: 'notes',
 };
 
-export default UserPage;
+export default GridTemplate;
