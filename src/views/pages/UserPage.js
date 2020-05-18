@@ -2,22 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Sidebar from 'components/Sidebar/Sidebar';
 
-const UserPage = ({ children, pageType }) => (
+const UserPage = ({ children }) => (
   <>
-    <Sidebar pageType={pageType} />
+    <Sidebar />
     {children}
   </>
 );
 
 UserPage.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  // eslint-disable-next-line react/require-default-props
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
-  pageType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-};
-
-UserPage.defaultProps = {
-  pageType: 'notes',
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]).isRequired,
 };
 
 export default UserPage;

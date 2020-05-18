@@ -7,6 +7,7 @@ import logoIco from 'assets/logo.svg';
 import editIco from 'assets/edit.svg';
 import twitterIco from 'assets/twitter.svg';
 import bulbIco from 'assets/bulb.svg';
+import withContext from 'hoc/withContext';
 import logoutIco from 'assets/logout.svg';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
 
@@ -46,8 +47,8 @@ const StyledLogoutButton = styled(ButtonIcon)`
   margin-top: auto;
 `;
 
-const Sidebar = ({ pageType }) => (
-  <StyledSidebar activeColor={pageType}>
+const Sidebar = ({ pageContext }) => (
+  <StyledSidebar activeColor={pageContext}>
     <StyledLogo to="/" />
 
     <InnerWrapper>
@@ -67,7 +68,11 @@ const Sidebar = ({ pageType }) => (
 );
 
 Sidebar.propTypes = {
-  pageType: PropTypes.string.isRequired,
+  pageContext: PropTypes.arrayOf(['notes', 'twitters', 'articles']),
 };
 
-export default Sidebar;
+Sidebar.defaultProps = {
+  pageContext: 'notes',
+};
+
+export default withContext(Sidebar);

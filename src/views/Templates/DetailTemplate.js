@@ -6,6 +6,7 @@ import UserPage from 'views/pages/UserPage';
 import Heading from 'components/Heading/Heading';
 import Paragraph from 'components/Paragraph/Paragraph';
 import Button from 'components/Button/Button';
+import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
   /* box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1); */
@@ -52,8 +53,8 @@ const StyledImage = styled.img`
   border-radius: 50%;
 `;
 
-const DetailTemplate = ({ pageType, title, created, content, articleUrl /* twitterName */ }) => (
-  <UserPage pageType={pageType}>
+const DetailTemplate = ({ pageContext, title, created, content, articleUrl /* twitterName */ }) => (
+  <UserPage pageType={pageContext}>
     <StyledWrapper>
       <StyledPageHeader>
         <StyledHeading big as="h1">
@@ -63,12 +64,12 @@ const DetailTemplate = ({ pageType, title, created, content, articleUrl /* twitt
       </StyledPageHeader>
 
       <Paragraph>{content}</Paragraph>
-      {pageType === 'articles' && <StyledLink href={articleUrl}>open article</StyledLink>}
-      {pageType === 'twitters' && (
+      {pageContext === 'articles' && <StyledLink href={articleUrl}>open article</StyledLink>}
+      {pageContext === 'twitters' && (
         <StyledImage src="https://avatarfiles.alphacoders.com/201/201969.jpg" />
       )}
 
-      <Button as={Link} to={`/${pageType}`} activeColor={pageType}>
+      <Button as={Link} to={`/${pageContext}`} activeColor={pageContext}>
         Return
       </Button>
     </StyledWrapper>
@@ -76,7 +77,7 @@ const DetailTemplate = ({ pageType, title, created, content, articleUrl /* twitt
 );
 
 DetailTemplate.propTypes = {
-  pageType: PropTypes.string.isRequired,
+  pageContext: PropTypes.string.isRequired,
   title: PropTypes.string,
   created: PropTypes.string,
   content: PropTypes.string,
@@ -90,4 +91,4 @@ DetailTemplate.defaultProps = {
   articleUrl: '',
 };
 
-export default DetailTemplate;
+export default withContext(DetailTemplate);
