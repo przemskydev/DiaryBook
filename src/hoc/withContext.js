@@ -5,9 +5,9 @@ const withContext = (Component) => {
   return function contextComponent(props) {
     return (
       <PageContext.Consumer>
-        {(context) => (
+        {(contextValue) => (
           // eslint-disable-next-line react/jsx-props-no-spreading
-          <Component {...props} pageContext={context} />
+          <Component {...props} pageContext={contextValue} />
         )}
       </PageContext.Consumer>
     );

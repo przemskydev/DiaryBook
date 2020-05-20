@@ -5,9 +5,13 @@ import UserPage from 'views/pages/UserPage';
 import Input from 'components/Input/Input';
 import Heading from 'components/Heading/Heading';
 import Paragraph from 'components/Paragraph/Paragraph';
+import ButtonIcon from 'components/ButtonIcon/ButtonIcon';
+import NewItem from 'components/AddNewItem/NewItem';
+import addIco from 'assets/add.svg';
 import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
+  position: relative;
   padding: 25px 150px 25px 75px;
 `;
 
@@ -43,21 +47,52 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.bold};
 `;
 
-const GridTemplate = ({ children, pageContext }) => (
-  <UserPage>
-    <StyledWrapper>
-      <StyledPageHeader>
-        <Input search placeholder="search" />
-        <StyledHeading big as="h1">
-          {pageContext}
-        </StyledHeading>
-        <StyledParagraph>6 {pageContext}</StyledParagraph>
-      </StyledPageHeader>
+const StyledButtonIcon = styled(ButtonIcon)`
+  background-color: ${({ activeColor, theme }) => theme[activeColor]};
+  border-radius: 50px;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 1000;
+`;
 
-      <StyledGrid>{children}</StyledGrid>
-    </StyledWrapper>
-  </UserPage>
-);
+class GridTemplate extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    };
+  }
+
+  handleAddItem = () => {
+    this.setState((prevState) => ({
+      isVisible: !prevState.isVisible,
+    }));
+  };
+
+  render() {
+    const { children, pageContext } = this.props;
+    const { isVisible } = this.state;
+
+    return (
+      <UserPage>
+        <StyledWrapper>
+          <StyledPageHeader>
+            <Input search placeholder="search" />
+            <StyledHeading big as="h1">
+              {pageContext}
+            </StyledHeading>
+            <StyledParagraph>6 {pageContext}</StyledParagraph>
+          </StyledPageHeader>
+
+          <StyledGrid>{children}</StyledGrid>
+          <StyledButtonIcon onClick={this.handleAddItem} icon={addIco} activeColor={pageContext} />
+          <NewItem handleClose={this.handleAddItem} visible={isVisible} />
+        </StyledWrapper>
+      </UserPage>
+    );
+  }
+}
 
 GridTemplate.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,

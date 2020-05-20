@@ -2,14 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import ButtonIco from 'components/ButtonIcon/ButtonIcon';
+import ButtonIcon from 'components/ButtonIcon/ButtonIcon';
 import logoIco from 'assets/logo.svg';
 import editIco from 'assets/edit.svg';
 import twitterIco from 'assets/twitter.svg';
 import bulbIco from 'assets/bulb.svg';
 import withContext from 'hoc/withContext';
 import logoutIco from 'assets/logout.svg';
-import ButtonIcon from '../ButtonIcon/ButtonIcon';
 
 const StyledSidebar = styled.nav`
   position: fixed;
@@ -53,13 +52,13 @@ const Sidebar = ({ pageContext }) => (
 
     <InnerWrapper>
       <li>
-        <ButtonIco as={NavLink} to="/notes" icon={editIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/notes" icon={editIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/twitters" icon={twitterIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/twitters" icon={twitterIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/articles" icon={bulbIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/articles" icon={bulbIco} activeclass="active" />
       </li>
     </InnerWrapper>
 
@@ -68,7 +67,7 @@ const Sidebar = ({ pageContext }) => (
 );
 
 Sidebar.propTypes = {
-  pageContext: PropTypes.arrayOf(['notes', 'twitters', 'articles']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
 Sidebar.defaultProps = {

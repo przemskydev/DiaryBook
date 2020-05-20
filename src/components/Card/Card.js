@@ -114,9 +114,9 @@ class Card extends React.Component {
 
 Card.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
+  created: PropTypes.string,
   articleUrl: PropTypes.string,
   content: PropTypes.string.isRequired,
   removeItem: PropTypes.func.isRequired,
@@ -125,6 +125,7 @@ Card.propTypes = {
 Card.defaultProps = {
   pageContext: 'notes',
   articleUrl: null,
+  created: null,
 };
 
 const mapDispatchToProps = (dispatch) => {
