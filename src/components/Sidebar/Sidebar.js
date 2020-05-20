@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import ButtonIco from 'components/ButtonIcon/ButtonIcon';
+import ButtonIcon from 'components/ButtonIcon/ButtonIcon';
 import logoIco from 'assets/logo.svg';
 import editIco from 'assets/edit.svg';
 import twitterIco from 'assets/twitter.svg';
 import bulbIco from 'assets/bulb.svg';
+import withContext from 'hoc/withContext';
 import logoutIco from 'assets/logout.svg';
-import ButtonIcon from '../ButtonIcon/ButtonIcon';
 
 const StyledSidebar = styled.nav`
   position: fixed;
@@ -46,19 +46,19 @@ const StyledLogoutButton = styled(ButtonIcon)`
   margin-top: auto;
 `;
 
-const Sidebar = ({ pageType }) => (
-  <StyledSidebar activeColor={pageType}>
+const Sidebar = ({ pageContext }) => (
+  <StyledSidebar activeColor={pageContext}>
     <StyledLogo to="/" />
 
     <InnerWrapper>
       <li>
-        <ButtonIco exact as={NavLink} to="/" icon={editIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/notes" icon={editIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/twitter" icon={twitterIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/twitters" icon={twitterIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIco as={NavLink} to="/article" icon={bulbIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/articles" icon={bulbIco} activeclass="active" />
       </li>
     </InnerWrapper>
 
@@ -67,7 +67,11 @@ const Sidebar = ({ pageType }) => (
 );
 
 Sidebar.propTypes = {
-  pageType: PropTypes.string.isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
 };
 
-export default Sidebar;
+Sidebar.defaultProps = {
+  pageContext: 'notes',
+};
+
+export default withContext(Sidebar);

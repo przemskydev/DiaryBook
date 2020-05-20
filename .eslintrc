@@ -8,9 +8,11 @@
     "jest": true
   },
   "globals": {
-    "document": true
+    "document": true,
+    "window": true
   },
   "rules": {
+    "no-console": "off",
     "import/prefer-default-export": 0,
     "react/jsx-filename-extension": [
       1,
@@ -21,6 +23,7 @@
       }
     ]
   },
+  "parser": "babel-eslint",
   "settings": {
     "import/resolver": {
       "node": {

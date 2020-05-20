@@ -1,10 +1,14 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import Paragraph from 'components/Paragraph/Paragraph';
 import Heading from 'components/Heading/Heading';
 import Button from 'components/Button/Button';
 import linkIco from 'assets/link.svg';
+import { connect } from 'react-redux';
+import { removeItem as removeItemAction } from 'actions';
+import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
   box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
@@ -47,7 +51,7 @@ const StyledHeading = styled(Heading)`
 const StyledAvatar = styled.img`
   width: 86px;
   height: 86px;
-  border: 5px solid ${({ theme }) => theme.twitter};
+  border: 5px solid ${({ theme }) => theme.twitters};
   border-radius: 50%;
   position: absolute;
   right: 25px;
@@ -68,35 +72,66 @@ const StyledLink = styled.a`
   top: 25px;
 `;
 /*  https://avatarfiles.alphacoders.com/201/201969.jpg  */
-const Card = ({ cardType, title, created, twitterName, articleUrl, content }) => (
-  <StyledWrapper>
-    <InnerWrapper activeColor={cardType}>
-      <StyledHeading>{title}</StyledHeading>
-      <DateInfo>{created}</DateInfo>
-      {cardType === 'twitter' && <StyledAvatar src={twitterName} />}
-      {cardType === 'article' && <StyledLink href={articleUrl} />}
-    </InnerWrapper>
-    <InnerWrapper flex>
-      <Paragraph>{content}</Paragraph>
+class Card extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+    };
+  }
 
-      <Button secondary>Remove</Button>
-    </InnerWrapper>
-  </StyledWrapper>
-);
+  handleCardClick = () => this.setState({ redirect: true });
+
+  render() {
+    const { id, pageContext, title, created, articleUrl, content, removeItem } = this.props;
+    const { redirect } = this.state;
+
+    if (redirect) {
+      return <Redirect to={`${pageContext}/${id}`} />;
+    }
+
+    return (
+      <StyledWrapper onClick={this.handleCardClick}>
+        <InnerWrapper activeColor={pageContext}>
+          <StyledHeading>{title}</StyledHeading>
+          <DateInfo>{created}</DateInfo>
+          {pageContext === 'twitters' && (
+            <StyledAvatar src="https://avatarfiles.alphacoders.com/201/201969.jpg" />
+          )}
+          {pageContext === 'articles' && <StyledLink href={articleUrl} />}
+        </InnerWrapper>
+        <InnerWrapper flex>
+          <Paragraph>{content}</Paragraph>
+
+          <Button onClick={() => removeItem(pageContext, id)} secondary>
+            Remove
+          </Button>
+        </InnerWrapper>
+      </StyledWrapper>
+    );
+  }
+}
 
 Card.propTypes = {
-  cardType: PropTypes.oneOf(['note', 'twitter', 'article']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  created: PropTypes.string.isRequired,
-  twitterName: PropTypes.string,
+  created: PropTypes.string,
   articleUrl: PropTypes.string,
   content: PropTypes.string.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
-  cardType: 'note',
-  twitterName: null,
+  pageContext: 'notes',
   articleUrl: null,
+  created: null,
 };
 
-export default Card;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeItem: (pageContext, id) => dispatch(removeItemAction(pageContext, id)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(withContext(Card));
