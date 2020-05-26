@@ -23,7 +23,7 @@ class MainTemplate extends React.Component {
   }
 
   setCurrentPage = (prevState = '') => {
-    const pageTypes = ['twitters', 'articles', 'notes'];
+    const pageTypes = ['twitters', 'articles', 'notes', 'todo'];
     const {
       location: { pathname },
     } = this.props;

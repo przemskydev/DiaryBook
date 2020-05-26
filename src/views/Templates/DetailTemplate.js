@@ -69,7 +69,7 @@ const DetailTemplate = ({ pageContext, title, created, content, articleUrl /* tw
         <StyledImage src="https://avatarfiles.alphacoders.com/201/201969.jpg" />
       )}
 
-      <Button as={Link} to={`/${pageContext}`} activeColor={pageContext}>
+      <Button as={Link} to={`/${pageContext}`} activecolor={pageContext}>
         Return
       </Button>
     </StyledWrapper>

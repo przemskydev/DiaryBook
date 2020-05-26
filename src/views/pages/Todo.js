@@ -1,27 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import GridTemplate from 'views/Templates/GridTemplate';
+import PropTypes from 'prop-types';
 import Card from 'components/Card/Card';
+import { connect } from 'react-redux';
 import { fetchItems as fetchItemsAction } from 'actions';
 
-class Notes extends React.Component {
+class Todo extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line react/prop-types
-    const { fetchNotes } = this.props;
-    fetchNotes();
+    const { fetchTodo } = this.props;
+    fetchTodo();
   }
 
   render() {
-    const { notes } = this.props;
-
+    // eslint-disable-next-line react/prop-types
+    const { todo } = this.props;
+    console.log(todo);
     return (
-      <GridTemplate pageType="notes">
-        {notes.map(({ _id: id, title, content, created }) => (
+      <GridTemplate pageType="todo">
+        {todo.map(({ _id: id, title, content, created }) => (
           <Card
             key={id}
             id={id}
-            cardType="notes"
+            cardType="todo"
             title={title}
             content={content}
             created={created}
@@ -32,14 +33,14 @@ class Notes extends React.Component {
   }
 }
 
-const mapStateToProps = ({ notes }) => ({ notes });
+const mapStateToProps = ({ todo }) => ({ todo });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchNotes: () => dispatch(fetchItemsAction('notes')),
+  fetchTodo: () => dispatch(fetchItemsAction('todo')),
 });
 
-Notes.propTypes = {
-  notes: PropTypes.arrayOf(
+Todo.propTypes = {
+  todo: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
@@ -49,8 +50,8 @@ Notes.propTypes = {
   ),
 };
 
-Notes.defaultProps = {
-  notes: [],
+Todo.defaultProps = {
+  todo: [],
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);

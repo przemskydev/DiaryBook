@@ -1,13 +1,20 @@
 import axios from 'axios';
 
-export const REMOVE_ITEM = 'REMOVE_ITEM';
-export const ADD_ITEM = 'ADD_ITEM';
+export const ADD_REQUEST = 'ADD_REQUEST';
+export const ADD_SUCCESS = 'ADD_SUCCESS';
+export const ADD_FAILURE = 'ADD_FAILURE';
+
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILURE = 'AUTH_FAILURE';
+
 export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAILURE = 'FETCH_FAILURE';
+
+export const REMOVE_REQUEST = 'REMOVE_REQUEST';
+export const REMOVE_SUCCESS = 'REMOVE_SUCCESS';
+export const REMOVE_FAILURE = 'REMOVE_FAILURE';
 
 export const fetchItems = (itemType) => (dispatch, getState) => {
   dispatch({ type: FETCH_REQUEST });
@@ -34,29 +41,47 @@ export const fetchItems = (itemType) => (dispatch, getState) => {
     });
 };
 
-export const removeItem = (itemType, id) => {
-  return {
-    type: REMOVE_ITEM,
-    payload: {
-      itemType,
-      id,
-    },
-  };
+export const removeItem = (itemType, id) => (dispatch) => {
+  dispatch({ type: REMOVE_REQUEST });
+
+  axios
+    .delete(`http://localhost:9000/api/note/${id}`)
+    .then(() => {
+      dispatch({
+        type: REMOVE_SUCCESS,
+        payload: {
+          itemType,
+          id,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: REMOVE_FAILURE });
+    });
 };
 
-export const addItem = (itemType, itemContent) => {
-  const getId = () => `_${Math.random().toString(36).substr(2, 9)}`;
+// const getId = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
-  return {
-    type: ADD_ITEM,
-    payload: {
-      itemType,
-      item: {
-        id: getId(),
-        ...itemContent,
-      },
-    },
-  };
+export const addItem = (itemType, itemContent) => (dispatch, getState) => {
+  dispatch({ type: ADD_REQUEST });
+
+  axios
+    .post('http://localhost:9000/api/note', {
+      userID: getState().userID,
+      type: itemType,
+      ...itemContent,
+    })
+    .then(({ data }) => {
+      dispatch({
+        type: ADD_SUCCESS,
+        payload: {
+          itemType,
+          data,
+        },
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 export const authenticate = (username, password) => (dispatch) => {

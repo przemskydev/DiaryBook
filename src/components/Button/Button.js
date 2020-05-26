@@ -7,7 +7,7 @@ const Button = styled.button`
   color: black;
   text-decoration: none;
   padding: 0;
-  background-color: ${({ activeColor, theme }) => theme[activeColor]};
+  background-color: ${({ activecolor, theme }) => theme[activecolor]};
   width: 220px;
   height: 47px;
   border: none;
@@ -24,7 +24,16 @@ const Button = styled.button`
       width: 105px;
       height: 30px;
       font-size: 10px;
+      margin-right: 10px;
     `}
+
+  ${({ done }) =>
+    done &&
+    css`
+      text-decoration: line-through;
+      background-color: hsl(0, 0%, 96%);
+      border: 2px solid hsl(123, 58%, 64%);
+    `};
 `;
 
 export default Button;
