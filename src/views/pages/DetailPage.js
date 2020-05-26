@@ -1,55 +1,53 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-unused-state */
 import React from 'react';
 import PropTypes from 'prop-types';
 import DetailTemplate from 'views/Templates/DetailTemplate';
-import { routes } from 'routes';
+import withContext from 'hoc/withContext';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 class DetailPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageType: 'notes',
+      activeItem: {
+        title: '',
+        created: '',
+        content: '',
+        articleUrl: '',
+        twitterName: '',
+      },
     };
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    if (this.props.activeItem) {
+      const [activeItem] = this.props.activeItem;
 
-    switch (match.path) {
-      case routes.note:
-        this.setState({ pageType: 'notes' });
-        break;
-      case routes.twitter:
-        this.setState({ pageType: 'twitters' });
-        break;
-      case routes.article:
-        this.setState({ pageType: 'articles' });
-        break;
-      default:
-        console.log('Something went wrong with matching paths');
+      this.setState({ activeItem });
+    } else {
+      const { id } = this.props.match.params;
+
+      axios
+        .get(`http://localhost:9000/api/note/${id}`)
+        .then(({ data }) => this.setState({ activeItem: data }))
+        .catch((err) => console.log(err));
     }
   }
 
   render() {
-    const fakeArtcile = {
-      id: 4,
-      title: 'Super animacje!',
-      content:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-      created: '10 days',
-      articleUrl: 'https://youtube.com/helloroman',
-      twitterName: 'sarah_edo',
-    };
-
-    const { pageType } = this.state;
+    const { activeItem } = this.state;
 
     return (
       <DetailTemplate
-        pageType={pageType}
-        title={fakeArtcile.title}
-        created={fakeArtcile.created}
-        content={fakeArtcile.content}
-        articleUrl={fakeArtcile.articleUrl}
-        twitterName={fakeArtcile.twitterName}
+        title={activeItem.title}
+        created={activeItem.created}
+        content={activeItem.content}
+        articleUrl={activeItem.articleUrl}
+        twitterName={activeItem.twitterName}
       />
     );
   }
@@ -60,4 +58,15 @@ DetailPage.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-export default DetailPage;
+const mapStateToProps = (state, ownProps) => {
+  if (state[ownProps.pageContext]) {
+    return {
+      activeItem: state[ownProps.pageContext].filter(
+        (item) => item._id === ownProps.match.params.id,
+      ),
+    };
+  }
+  return {};
+};
+
+export default withContext(connect(mapStateToProps)(DetailPage));

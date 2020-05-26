@@ -70,7 +70,6 @@ const NewItem = ({ pageContext, visible, addItem, handleClose }) => {
               onBlur={handleBlur}
               value={values.title}
             />
-
             {pageContext === 'twitters' && (
               <StyledInput
                 placeholder="twitter_name"
@@ -89,7 +88,11 @@ const NewItem = ({ pageContext, visible, addItem, handleClose }) => {
                 name="articleUrl"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.articleUrl}
+                value={
+                  values.articleUrl.includes('http://')
+                    ? values.articleUrl
+                    : `http://${values.articleUrl}`
+                }
               />
             )}
 
@@ -119,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 NewItem.propTypes = {
-  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles', 'todo']),
   visible: PropTypes.bool.isRequired,
   addItem: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,

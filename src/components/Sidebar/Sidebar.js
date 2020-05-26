@@ -6,7 +6,8 @@ import ButtonIcon from 'components/ButtonIcon/ButtonIcon';
 import logoIco from 'assets/logo.svg';
 import editIco from 'assets/edit.svg';
 import twitterIco from 'assets/twitter.svg';
-import bulbIco from 'assets/bulb.svg';
+import newsIco from 'assets/news.svg';
+import todoIco from 'assets/todo.svg';
 import withContext from 'hoc/withContext';
 import logoutIco from 'assets/logout.svg';
 
@@ -17,7 +18,7 @@ const StyledSidebar = styled.nav`
   padding: 25px 0;
   width: 150px;
   height: 100vh;
-  background-color: ${({ activeColor, theme }) => (activeColor ? theme[activeColor] : theme.note)};
+  background-color: ${({ activecolor, theme }) => (activecolor ? theme[activecolor] : theme.note)};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,7 +48,7 @@ const StyledLogoutButton = styled(ButtonIcon)`
 `;
 
 const Sidebar = ({ pageContext }) => (
-  <StyledSidebar activeColor={pageContext}>
+  <StyledSidebar activecolor={pageContext}>
     <StyledLogo to="/" />
 
     <InnerWrapper>
@@ -58,7 +59,10 @@ const Sidebar = ({ pageContext }) => (
         <ButtonIcon as={NavLink} to="/twitters" icon={twitterIco} activeclass="active" />
       </li>
       <li>
-        <ButtonIcon as={NavLink} to="/articles" icon={bulbIco} activeclass="active" />
+        <ButtonIcon as={NavLink} to="/articles" icon={newsIco} activeclass="active" />
+      </li>
+      <li>
+        <ButtonIcon as={NavLink} to="/todo" icon={todoIco} activeclass="active" />
       </li>
     </InnerWrapper>
 
@@ -67,7 +71,7 @@ const Sidebar = ({ pageContext }) => (
 );
 
 Sidebar.propTypes = {
-  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles', 'todo']),
 };
 
 Sidebar.defaultProps = {

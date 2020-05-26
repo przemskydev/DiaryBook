@@ -7,6 +7,7 @@ import DetailPage from 'views/pages/DetailPage';
 import Notes from 'views/pages/Notes';
 import Twitter from 'views/pages/Twitter';
 import Article from 'views/pages/Article';
+import Todo from 'views/pages/Todo';
 import LoginPage from 'views/pages/LoginPage';
 import { routes } from 'routes';
 
@@ -27,6 +28,9 @@ const Root = () => (
 
           <Route exact path={routes.articles} component={Article} />
           <Route path={routes.article} component={DetailPage} />
+
+          <Route exact path={routes.todos} component={Todo} />
+          <Route path={routes.todo} component={DetailPage} />
         </Switch>
       </MainTepmlate>
     </BrowserRouter>

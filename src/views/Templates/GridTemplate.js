@@ -61,6 +61,7 @@ class GridTemplate extends React.Component {
     super(props);
     this.state = {
       isVisible: false,
+      searchingItem: '',
     };
   }
 
@@ -68,6 +69,22 @@ class GridTemplate extends React.Component {
     this.setState((prevState) => ({
       isVisible: !prevState.isVisible,
     }));
+  };
+
+  handleSearch = (e) => {
+    this.setState({
+      searchingItem: e.target.value,
+    });
+  };
+
+  handleChildFilter = (cardChild) => {
+    const { title } = cardChild.props;
+    const { searchingItem } = this.state;
+
+    if (title.indexOf(searchingItem) > -1) {
+      return cardChild;
+    }
+    return '';
   };
 
   render() {
@@ -78,14 +95,16 @@ class GridTemplate extends React.Component {
       <UserPage>
         <StyledWrapper>
           <StyledPageHeader>
-            <Input search placeholder="search" />
+            <Input search placeholder="search" onChange={this.handleSearch} />
             <StyledHeading big as="h1">
               {pageContext}
             </StyledHeading>
-            <StyledParagraph>6 {pageContext}</StyledParagraph>
+            <StyledParagraph>
+              {children.length} {pageContext}
+            </StyledParagraph>
           </StyledPageHeader>
 
-          <StyledGrid>{children}</StyledGrid>
+          <StyledGrid>{children.map((child) => this.handleChildFilter(child))}</StyledGrid>
           <StyledButtonIcon onClick={this.handleAddItem} icon={addIco} activeColor={pageContext} />
           <NewItem handleClose={this.handleAddItem} visible={isVisible} />
         </StyledWrapper>
@@ -96,7 +115,7 @@ class GridTemplate extends React.Component {
 
 GridTemplate.propTypes = {
   children: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles', 'todo']),
 };
 
 GridTemplate.defaultProps = {
